@@ -1,5 +1,8 @@
 from google.adk.agents import Agent  
+from google.genai import types
 from script_tools import compare_script_versions 
+from department_impact_analsyt import classify_affected_departments
+
 
 comparison_agent = Agent(
     name="script_comparison_agent",
@@ -7,6 +10,14 @@ comparison_agent = Agent(
     description="Finds differences between two screenplay versions.",
     instruction="Compare the old and revised screenplay and report only supported changes.",
     tools=[compare_script_versions],
+)
+
+classify_affected_department = Agent(
+    name="department_impact_agent",
+    model="gemini-3.6-flash",
+    description="Classifies departments affected by screenplay changes.",
+    instruction="Analyze the screenplay changes and classify the affected departments.",
+    tools=[classify_affected_departments],
 )
 
 sound_continuity_agent = Agent(
@@ -44,9 +55,15 @@ sound_continuity_agent = Agent(
 root_agent = Agent(
     name="revision_impact_agent",
     model="gemini-3.5-flash",
+
+    generate_content_config=types.GenerateContentConfig(
+        http_options=types.HttpOptions(
+            retry_options=types.HttpRetryOptions(initial_delay=1, attempts=2),
+        ),
+    ),
     description="Coordinates screenplay revision analysis.",
     instruction=(
       "Delegate comparison to the relevant specialist and combine the results for human review."
     ),
-    sub_agents=[comparison_agent, sound_continuity_agent],
+    sub_agents=[comparison_agent, sound_continuity_agent, classify_affected_department],
 )
