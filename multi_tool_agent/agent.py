@@ -9,12 +9,44 @@ comparison_agent = Agent(
     tools=[compare_script_versions],
 )
 
+sound_continuity_agent = Agent(
+    name="sound_continuity_agent",
+    model="gemini-3.6-flash",
+    description=(
+        "Analyses screenplay revisions for sound requirements "
+        "and continuity risks."
+    ),
+    instruction="""
+    You are a production sound continuity specialist.
+
+    Analyse the screenplay changes provided to you.
+
+    Identify:
+    1. Added, removed, or changed dialogue.
+    2. Changes in location, time, weather, or environment. 
+    3. Whispering, shouting, off-screen speech, phone calls, and radio calls.
+    4. Sound effects such as rain, traffic, vehicles, crowds, generators, and music.
+    5. Requirements for room tone, wild tracks, playback, or additional recording.
+
+    For every risk, provide:
+    - Scene or location.
+    - Relevant script evidence.
+    - Sound requirement or risk.
+    - Recommended action.
+    - Confidence level.
+
+    Do not claim that the final audio will definitely fail.
+    Clearly separate facts from assumptions.
+    Recommendations must be reviewed by a human.
+    """
+)
+
 root_agent = Agent(
     name="revision_impact_agent",
-    model="gemini-3.6-flash",
+    model="gemini-3.5-flash",
     description="Coordinates screenplay revision analysis.",
     instruction=(
       "Delegate comparison to the relevant specialist and combine the results for human review."
     ),
-    sub_agents=[comparison_agent],
+    sub_agents=[comparison_agent, sound_continuity_agent],
 )
