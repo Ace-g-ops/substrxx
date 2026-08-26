@@ -55,12 +55,6 @@ sound_continuity_agent = Agent(
 root_agent = Agent(
     name="revision_impact_agent",
     model="gemini-3.5-flash",
-
-    generate_content_config=types.GenerateContentConfig(
-        http_options=types.HttpOptions(
-            retry_options=types.HttpRetryOptions(initial_delay=1, attempts=2),
-        ),
-    ),
     description="Coordinates screenplay revision analysis.",
     instruction=(
       "Delegate comparison to the relevant specialist and combine the results for human review."
