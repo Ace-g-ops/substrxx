@@ -12,6 +12,7 @@ comparison_agent = Agent(
     description="Finds differences between two screenplay versions.",
     instruction="Compare the old and revised screenplay and report only supported changes.",
     tools=[compare_script_versions],
+    output_key="comparison"
 )
 
 department_impact_agent = Agent(
@@ -20,6 +21,7 @@ department_impact_agent = Agent(
     description="Classifies departments affected by screenplay changes.",
     instruction="Analyze the screenplay changes and classify the affected departments.",
     tools=[classify_affected_departments],
+    output_key="department_impact"
 )
 
 sound_continuity_agent = Agent(
@@ -54,6 +56,7 @@ sound_continuity_agent = Agent(
     """,
     
     output_schema=SoundContinuityReport,
+    output_key="sound_continuity",
 )
 
 root_agent = Agent(
