@@ -4,6 +4,7 @@ from script_comparison import compare_script_versions
 from department_impact_analsyt import classify_affected_departments
 from google.adk.apps.app import App
 from google.adk.agents.context_cache_config import ContextCacheConfig
+from substrxx_models import SoundContinuityReport
 
 comparison_agent = Agent(
     name="script_comparison_agent",
@@ -50,7 +51,9 @@ sound_continuity_agent = Agent(
     Do not claim that the final audio will definitely fail.
     Clearly separate facts from assumptions.
     Recommendations must be reviewed by a human.
-    """
+    """,
+    
+    output_schema=SoundContinuityReport,
 )
 
 root_agent = Agent(
