@@ -10,7 +10,12 @@ comparison_agent = Agent(
     name="script_comparison_agent",
     model="gemini-3.6-flash",
     description="Finds differences between two screenplay versions.",
-    instruction="Compare the old and revised screenplay and report only supported changes.",
+    instruction=(
+        "Call compare_script_versions with the two screenplay texts. "
+        "Output ONLY the exact JSON object the tool returns, verbatim, "
+        "with no markdown, no headers, no bullet points, no summary, "
+        "and no text before or after the JSON."
+    ),
     tools=[compare_script_versions],
     output_key="comparison"
 )
@@ -19,7 +24,12 @@ department_impact_agent = Agent(
     name="department_impact_agent",
     model="gemini-3.6-flash",
     description="Classifies departments affected by screenplay changes.",
-    instruction="Analyze the screenplay changes and classify the affected departments.",
+    instruction=(
+        "Call classify_affected_departments with the provided changes. "
+        "Output ONLY the exact JSON object the tool returns, verbatim, "
+        "with no markdown, no headers, no bullet points, no summary, "
+        "and no text before or after the JSON."
+    ),
     tools=[classify_affected_departments],
     output_key="department_impact"
 )
