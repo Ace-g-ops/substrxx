@@ -1,7 +1,9 @@
 from google.adk.agents import Agent  
-from google.genai import types
+# from google.genai import types
 from script_tools import compare_script_versions 
 from department_impact_analsyt import classify_affected_departments
+from google.adk.agents import Agent, App
+from google.adk.agents.context_cache_config import ContextCacheConfig
 
 
 comparison_agent = Agent(
@@ -12,7 +14,7 @@ comparison_agent = Agent(
     tools=[compare_script_versions],
 )
 
-classify_affected_department = Agent(
+department_impact_agent = Agent(
     name="department_impact_agent",
     model="gemini-3.6-flash",
     description="Classifies departments affected by screenplay changes.",
@@ -54,10 +56,20 @@ sound_continuity_agent = Agent(
 
 root_agent = Agent(
     name="revision_impact_agent",
-    model="gemini-3.5-flash",
+    model="gemini-3.6-flash",
     description="Coordinates screenplay revision analysis.",
     instruction=(
       "Delegate comparison to the relevant specialist and combine the results for human review."
     ),
-    sub_agents=[comparison_agent, sound_continuity_agent, classify_affected_department],
+    sub_agents=[comparison_agent, sound_continuity_agent, department_impact_agent],
+)
+
+app = App(
+    name="revision_impact_app",
+    root_agent=root_agent,
+    context_cache_config=ContextCacheConfig(
+        min_tokens=2048,
+        ttl_seconds=600,
+        cache_intervals=5,
+    ),
 )
