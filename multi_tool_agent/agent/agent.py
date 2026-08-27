@@ -1,10 +1,9 @@
 from google.adk.agents import Agent  
 # from google.genai import types
-from script_tools import compare_script_versions 
+from script_comparison import compare_script_versions
 from department_impact_analsyt import classify_affected_departments
-from google.adk.agents import Agent, App
+from google.adk.apps.app import App
 from google.adk.agents.context_cache_config import ContextCacheConfig
-
 
 comparison_agent = Agent(
     name="script_comparison_agent",
