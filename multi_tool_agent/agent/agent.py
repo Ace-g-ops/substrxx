@@ -1,10 +1,10 @@
 from google.adk.agents import Agent  
 # from google.genai import types
 from script_comparison import compare_script_versions
-from department_impact_analsyt import classify_affected_departments
 from google.adk.apps.app import App
 from google.adk.agents.context_cache_config import ContextCacheConfig
 from substrxx_models import SoundContinuityReport
+from substrxx_models import DepartmentImpactReport
 
 comparison_agent = Agent(
     name="script_comparison_agent",
@@ -30,7 +30,7 @@ department_impact_agent = Agent(
         "with no markdown, no headers, no bullet points, no summary, "
         "and no text before or after the JSON."
     ),
-    tools=[classify_affected_departments],
+    output_schema =DepartmentImpactReport,
     output_key="department_impact"
 )
 

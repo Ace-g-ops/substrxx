@@ -14,9 +14,19 @@ class ScriptComparisonReport(BaseModel):
     total_changes: int = 0
     changes: list[ChangeEntry] = []
  
+class departmentImpact(BaseModel):
+    department: Literal[
+        "sound_continuity", "camera", "lighting", "production_design",
+        "costume", "makeup", "stunts", "visual_effects", "other",
+    ]
+
+    evidence: str = Field(description="Script line(s) that triggered this department classification.")
+    justification: str = Field(description="Script line(s) that justify this department classification")
+    reasoning: str = Field(description="Why this department is affected by the changes.")
+
 class DepartmentImpactReport(BaseModel):
-    affected_departments: list[str]
-    impact_counts: dict[str, int]
+    departments: list[departmentImpact]
+
  
 class SoundRisk(BaseModel):
     scene_or_location: str = Field(description="Scene heading or location where the risk occurs.")
