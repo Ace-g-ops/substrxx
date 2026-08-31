@@ -70,7 +70,7 @@ sound_continuity_agent = Agent(
 )
 
 root_agent = Agent(
-    name="revision_impact_agent",
+    name="ScriptSculpt",
     model="gemini-3.6-flash",
     description="Coordinates screenplay revision analysis.",
     instruction=(
@@ -80,7 +80,7 @@ root_agent = Agent(
 )
 
 app = App(
-    name="revision_impact_app",
+    name="ScriptSculpt",
     root_agent=root_agent,
     context_cache_config=ContextCacheConfig(
         min_tokens=2048,
