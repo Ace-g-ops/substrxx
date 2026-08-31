@@ -5,7 +5,7 @@ from google.adk.apps.app import App
 from google.adk.agents.context_cache_config import ContextCacheConfig
 from substrxx_models import SoundContinuityReport
 from substrxx_models import DepartmentImpactReport
-
+from google.adk.server import create_app
 comparison_agent = Agent(
     name="script_comparison_agent",
     model="gemini-3.6-flash",
