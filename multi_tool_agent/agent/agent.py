@@ -88,3 +88,5 @@ app = App(
         cache_intervals=5,
     ),
 )
+
+app = create_app(app)
