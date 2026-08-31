@@ -13,4 +13,4 @@ COPY multi_tool_agent/ .
 EXPOSE 8080
 
 
-CMD ["uvicorn", "server:fastapi_app, "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "server:fastapi_app", "--host", "0.0.0.0", "--port", "8080"]
