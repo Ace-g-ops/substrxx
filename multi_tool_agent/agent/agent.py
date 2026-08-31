@@ -1,4 +1,4 @@
-import importlib
+import os
 
 from google.adk.agents import Agent  
 # from google.genai import types
@@ -8,10 +8,7 @@ from google.adk.agents.context_cache_config import ContextCacheConfig
 from substrxx_models import SoundContinuityReport
 from substrxx_models import DepartmentImpactReport
 
-try:
-    create_app = importlib.import_module("google.adk.server").create_app
-except ModuleNotFoundError:
-    create_app = None
+from google.adk.cli.fast_api import get_fast_api_app
 
 comparison_agent = Agent(
     name="script_comparison_agent",
@@ -96,4 +93,7 @@ app = App(
     ),
 )
 
-app = create_app(app)
+app = get_fast_api_app(
+    agents_dir=os.path.dirname(os.path.abspath(__file__)),
+    web=True,
+)
