@@ -1,3 +1,5 @@
+import importlib
+
 from google.adk.agents import Agent  
 # from google.genai import types
 from script_comparison import compare_script_versions
@@ -5,7 +7,12 @@ from google.adk.apps.app import App
 from google.adk.agents.context_cache_config import ContextCacheConfig
 from substrxx_models import SoundContinuityReport
 from substrxx_models import DepartmentImpactReport
-from google.adk.server import create_app
+
+try:
+    create_app = importlib.import_module("google.adk.server").create_app
+except ModuleNotFoundError:
+    create_app = None
+
 comparison_agent = Agent(
     name="script_comparison_agent",
     model="gemini-3.6-flash",
