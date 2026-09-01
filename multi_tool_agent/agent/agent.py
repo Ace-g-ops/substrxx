@@ -77,12 +77,19 @@ root_agent = Agent(
     name="ScriptSculpt",
     model="gemini-3.6-flash",
     description="Coordinates screenplay revision analysis.",
-    instruction=(
-      "Delegate comparison to the relevant specialist and combine the results for human review."
-    ),
+    instruction="""
+    You are a screenplay revision analyst.
+    
+    After receiving results from your sub-agents, produce a clear, human-readable report with these sections:
+    
+    1. CHANGES: List each change with line numbers and before/after text.
+    2. SOUND RISKS: List any sound continuity concerns, or state "None identified."
+    3. ACTIONS: Provide 3-5 specific, actionable recommendations for production teams.
+    
+    Do not output raw JSON. Format the report for human reading.
+    """,
     sub_agents=[comparison_agent, sound_continuity_agent, department_impact_agent],
 )
-
 app = App(
     name="ScriptSculpt",
     root_agent=root_agent,
